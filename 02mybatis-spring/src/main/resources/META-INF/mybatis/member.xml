@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="day2.mapper.MemberMapper">
+ 	<!-- 네임스페이스는 매퍼 인터페이스의 패키지.인터페이스명 로 지정 -->
+ 	<insert id="insert" parameterType="Member" >
+ 	INSERT INTO 
+ 	MEMBER_TBL_02 (CUSTNO, CUSTNAME, PHONE, ADDRESS,JOINDATE, GRADE, CITY) 
+	VALUES(#{custNo},#{custName},#{phone,jdbcType=VARCHAR},#{address},sysdate,#{grade},#{city,jdbcType=VARCHAR})
+	<!-- 파라미터타입이 클래스일때 #{} 는 프로퍼티이름을 정확히 대소문자 구분하여 작성하세요. 
+		여기서의 프로퍼티 이름은 vo 클래스의 변수명입니다.
+	-->
+ 	</insert>
+ 	
+ 	<update id="update" parameterType="Member">
+ 	UPDATE MEMBER_TBL_02 
+ 	SET	phone=#{phone}, address=#{address}, city=#{city} 
+ 	WHERE custno = #{custNo}
+ 	</update>
+ 	
+ 	<delete id="deleteOne" parameterType="int">
+ 	delete from MEMBER_TBL_02 where custno = #{custno}
+ 	</delete>
+ 	
+ 	
+ 	<!-- select 실행결과를 자동으로 Member 객체를 생성해서 매핑을 합니다. -->
+ 	<select id="selectOne" parameterType="int" resultType="Member">
+ 	select * from member_tbl_02 where custno = #{custno}
+ 	</select>
+ 	<!-- select 실행결과가 여러행이 되는 List인 경우에는 <T>에 해당하는 제너릭타입을 설정합니다. -->
+ 	<select id="selectAll" resultType="Member">
+ 	select * from member_tbl_02
+ 	</select>	
+ 	<!-- 동적쿼리 검색 -->
+ 	<select id="search" parameterType="java.util.Map" resultType="Member">
+ 	select * from member_tbl_02 
+	 	<if test="column=='name'">
+	 		where custname like '%'||#{find}||'%'
+	 	</if>
+	 	<if test="column=='address'">
+	 		where address like '%'||#{find}||'%'
+	 	</if>
+	 	<if test="column=='city'">
+	 		where city=#{find}
+	 	</if>
+	 	<if test="column=='grade'">
+	 		where grade=#{find}
+	 	</if>
+ 	</select>
+ 	
+ 	<!-- 테스트 검색 -->
+ 	<select id="searchName" parameterType="String" resultType="Member">
+ 	select * from member_tbl_02 where custname like '%'||#{find}||'%'
+ 	<!-- where custname=#{custname} -->
+ 	</select>
+ 	<select id="getNextSeq" resultType="int">
+ 	select member_seq.nextval from dual
+ 	</select>
+ 	
+
+ </mapper>
+ 
+ 
+ 
+ 
+ 
+ 

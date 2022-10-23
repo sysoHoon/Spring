@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.idev.boot.dao.FreeboardMapper">  
+   <!-- 검색 필요없을 때 -->
+	<select id="getPageList" 
+		parameterType="java.util.Map"
+		resultType="Board">
+	SELECT * FROM 
+		(SELECT rownum r ,f.* from
+			(SELECT * FROM FREEBOARD  
+			ORDER BY idx DESC) f)
+	WHERE r BETWEEN #{startNo} AND #{endNo}
+	</select>
+	
+	<select id="getCount" resultType="int">
+	SELECT count(*) FROM FREEBOARD
+	</select>
+	
+	<select id="detail" resultType="Board" parameterType="int">
+	SELECT* FROM FREEBOARD WHERE idx = #{idx}
+	</select>
+	
+	<insert id="insert" parameterType="Board">
+	insert into freeboard(idx,writer,password,subject,content,ip) 
+	values (board_idx_seq.nextval, #{writer},#{password},#{subject},#{content},#{ip})
+	</insert>
+	
+	<update id="readcountUp" parameterType="int">
+	UPDATE FREEBOARD 
+	SET READCOUNT = READCOUNT +1 
+	WHERE idx = #{idx}
+	</update>
+
+	<update id="update" parameterType="Board">
+		update freeboard set subject =#{subject}, content=#{content} ,wdate=sysdate
+		where idx=#{idx}
+	</update>
+	
+	<delete id="delete" parameterType="java.util.Map"><!-- 글 비밀번호 확인하고 삭제 -->
+		delete from freeboard where idx=#{idx} and password =#{password}
+	</delete>
+	
+	
+	<!-- 검색 SQL : 검색 기준 컬럼은 1) 내용 2) 이름  3) 제목  4) 내용+제목   *** 동적 쿼리 ***-->
+	<select id="searchList" parameterType="PageDto" resultType="Board">
+		SELECT * FROM 
+		(SELECT rownum r ,f.* from
+			(SELECT * FROM FREEBOARD  
+				  <if test='"C".equals(field)'>  <!-- 파라미터 PageDto의 field 속성 -->
+				   where content like '%'|| #{findText} ||'%'
+				  </if>
+				  <if test='"N".equals(field)'>  
+				   where writer like '%'|| #{findText} ||'%' <!-- 파라미터 PageDto의 findText 속성 -->
+				  </if>
+				  <if test='"S".equals(field)'>
+				   where subject like '%'|| #{findText} ||'%'
+				  </if>
+				  <if test='"CS".equals(field)'>
+				   where content like '%'|| #{findText} ||'%'
+				   OR subject like '%'|| #{findText} ||'%'
+				  </if>    
+			ORDER BY idx DESC) f)
+		WHERE r BETWEEN #{startNo} AND #{endNo}
+	</select>
+	<!-- 검색결과 갯수를 쿼리 실행 : 검색 결과 페이징을 위해서 필요합니다.  -->
+	<select id="searchCount" parameterType="PageDto" resultType="int">
+		SELECT count(*) FROM freeboard 
+				  <if test='"C".equals(field)'>  <!-- 파라미터 PageDto의 field 속성 -->
+				   where content like '%'|| #{findText} ||'%'
+				  </if>
+				  <if test='"N".equals(field)'>  
+				   where writer like '%'|| #{findText} ||'%' <!-- 파라미터 PageDto의 findText 속성 -->
+				  </if>
+				  <if test='"S".equals(field)'>
+				   where subject like '%'|| #{findText} || '%'
+				  </if>
+				  <if test='"CS".equals(field)'>
+				   where content like '%'|| #{findText} ||'%'
+				   OR subject like '%'|| #{findText} ||'%'
+				  </if>        
+	</select>
+</mapper>  

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;0bootdemo/src/main/resources/templates/form.html&apos; to &apos;home.html&apos;" description="Rename resource &apos;form.html&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main/resources/templates/form.html" name="home.html" stamp="1663595214421" updateReferences="true"/>
+</session>

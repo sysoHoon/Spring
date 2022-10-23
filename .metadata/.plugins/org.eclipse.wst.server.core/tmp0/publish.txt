@@ -1,0 +1,4 @@
+#Tomcat publish data
+#Mon Sep 19 22:06:20 KST 2022
+org.eclipse.jst.jee.server\:03spring-mvc=/Applications/pivotal-tc-server/instances/server/wtpwebapps/03spring-mvc
+org.eclipse.jst.jee.server\:/binary\:/Users/parksanghoon/.m2/repository/org/springframework/spring-web/5.0.1.RELEASE/spring-web-5.0.1.RELEASE.jar=/Applications/pivotal-tc-server/instances/server/wtpwebapps/03spring-mvc/WEB-INF/lib/spring-web-5.0.1.RELEASE.jar

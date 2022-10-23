@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.psh.boot.dao.ScheduleMapper">
+
+	<insert id="insert" parameterType="Schedule">
+	INSERT INTO SCHEDULE(idx,mno,title,sdate)
+	VALUES(sch_idx_seq.nextval,#{mno},#{title},TO_DATE(#{sdate},'YYYY-MM-DD HH24:MI'))
+	</insert>
+	<select id="getSchedules" resultType="Schedule" parameterType="int">
+	SELECT * FROM SCHEDULE WHERE mno=#{mno} ORDER BY SDATE
+	</select>
+	<select id="checkMno" resultType="int" parameterType="int">
+		select mno from schedule where idx=#{idx}
+		<!-- mno가 null 일때는 0으로 대체합니다. -->
+	</select>
+	<delete id="delete">
+		delete from schedule where idx=#{idx}
+	</delete>
+	
+</mapper>

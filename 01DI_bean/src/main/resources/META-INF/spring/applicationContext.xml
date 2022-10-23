@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!--   이  파일이 POJO 클래스를 자바 bean으로 정의하고 있습니다. -->
+	<!-- BuyController, BuyService,BuyDao 빈(객체) 생성을 위한 설정파일입니다. -->
+	<!-- id는 변수명 역할의 식별자 , class 는 객체를 생성할 클래스 (패키지명 반드시 표기)-->
+	
+	<bean class="day1.review.BuyController" id="controller">
+		<!-- 의존관계 주입(DI) : 생성자에 전달하는 인자 service 라는 이름의 bean 으로 설정-->
+		<!--  커스텀 생성자가 정의된 경우에만 가능합니다. -->
+		<constructor-arg ref="service"/>
+		<!-- 생성자 인자가 bean 일때에는 ref -->
+	</bean>
+	
+	<bean class="day1.review.BuyService" id="service">
+		<!-- 의존관계 주입(DI) : 생성자에 전달하는 인자가 dao 라는 이름의 bean -->
+		<constructor-arg ref="dao2"/>
+	</bean>
+	
+	<bean class="day1.review.BuyDao" id="dao">
+		<!-- 생성자의 인자 value 전달 -->
+		<constructor-arg value="마이바티스"/>
+	</bean>
+	
+	<bean class="day1.review.BuyDao" id="dao2">
+		<constructor-arg value="JDBC"/>
+	</bean>
+	
+	<!-- 연습 . ProductService 와 ProductDao bean 설정하기  -->
+	<!-- 아래의 bean 정의는 커스텀 생성자 없으면 오류입니다. -->
+<!-- 
+	<bean class="day1.review.ProductService" id="productService">
+		<constructor-arg ref="productDao"/>
+	</bean>  
+	<bean class="day1.review.ProductDao" id="productDao">
+		<constructor-arg name="cnt" value="7"/>
+		<constructor-arg name="pname" value="smartTV"/>
+	</bean>
+ -->
+	<!-- setter -->
+	<bean class="day1.review.ProductService" id="productService">
+		<property name="dao" ref="productDao2"/>
+	</bean>
+	
+	<bean class="day1.review.ProductDao" id="productDao2">
+		<property name="cnt" value="17"/>
+		<property name="pname" value="스마트TV"/>
+	</bean>
+	<!-- 다음 단계. 직접 설계한 클래스는 좀 더 쉽게 bean으로 설정해보기 : 이노테이션 -->
+	
+	
+</beans>

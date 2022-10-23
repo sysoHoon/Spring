@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aop-reference-model>
+<aop-project name="bootjspBoard"/>
+<aop-project name="04boot_test"/>
+<aop-project name="0bootdemo"/>
+<aop-project name="05boot_mvc"/>
+<aop-project name="0start"/>
+<aop-project name="02mybatis-spring"/>
+<aop-project name="01DI_bean"/>
+<aop-project name="03spring-mvc"/>
+</aop-reference-model>
